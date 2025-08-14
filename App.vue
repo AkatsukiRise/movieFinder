@@ -8,14 +8,7 @@
         </router-link>
     </header>
     <main>
-      <router-link />
-    <div id='search_flex'>
-    <label for='search'>Искать Фильм</label>
-      <input
-        id='search'
-        placeholder='Название Фильма'
-      >
-    </div>
+      <router-view />
     </main>
   </div>
 </template>
@@ -25,6 +18,7 @@
   --yellow: #FFDC00;
   --red: #1e0700;
 }
+
 
 * {
   margin: 0;
