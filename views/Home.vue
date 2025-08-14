@@ -10,7 +10,7 @@ const SearchMovies = () => {
     fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${search.value}`)
       .then(response => response.json())
       .then(data => {
-        movies.value = data.Search;
+        movies.value = data.Search || [];
         search.value = '';
       })
   }
@@ -22,7 +22,7 @@ const SearchMovies = () => {
     <div class='feature_card'>
       <router-link to='/movie/tt3783958'>
         <img src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/6ae75746996947.586cfecbef3b1.jpg' alt='La-La-Land' class='feature_img'>
-        <div clas='detail'>
+        <div class='detail'>
           <h3>La La Land</h3>
           <p>Mia, an aspiring actress, serves lattes to movie stars in between auditions and Sebastian, a jazz musician, scrapes by playing cocktail party gigs in dingy bars, but as success mounts they are faced with decisions that begin to fray the fragile fabric of their love affair, and the dreams they worked so hard to maintain in each other threaten to rip them apart</p>
         </div>
@@ -39,7 +39,7 @@ const SearchMovies = () => {
             <img :src='movie.Poster' alt='Poster'>
             <div class='type'>{{ movie.Type }}</div>
           </div>
-          <div class='movies_deatil'>
+          <div class='detail'>
             <p class='movies_year'>{{ movie.Year }}</p>
             <h3>{{ movie.Title }}</h3>
           </div>
@@ -51,6 +51,12 @@ const SearchMovies = () => {
 
 
 <style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
 .home .feature_card {
   position: relative;
 }
@@ -115,17 +121,17 @@ const SearchMovies = () => {
 .home .search_box input[type='submit'] {
   width: 100%;
   max-width: 300px;
-  background-color: var(--yellow);
+  background-color: var(--orange);
   padding: 1rem;
   border-radius: 0.5rem;
-  color: #fff;
+  color: var(--yellow);
   font-size: 1.25rem;
   text-transform: uppercase;
   transition: 0.4s;
 }
 
 .home .search_box input[type='submit']:active {
-  background-color: #3b8070;
+  background-color: var(--red);
 }
 
 .home .movies_list {
@@ -138,13 +144,13 @@ const SearchMovies = () => {
 .home .movies_list .movies {
   max-width: 50%;
   flex: 1 1 50%;
-  padding: 1rem 0.5rem;
+  padding: 0.8rem 1rem;
 }
 
 
 .home .movies_list .movies .movies_link {
   display: flex;
-  direction: column;
+  flex-direction: column;
   height: 100%;
 }
 
@@ -156,16 +162,39 @@ const SearchMovies = () => {
 
 .home .movies_list .movies .movies_link .movies_image img{
   display: block;
+  width: 100%;
   height: 17rem;
+  object-fit: cover;
 }
 
 .home .movies_list .movies .movies_link .movies_image .type{
   position: absolute;
   padding: 0.5rem 1rem;
-  background-color: var(--yellow);
-  color: black;
+  background-color: var(--orange);
+  color: var(--yellow);
   bottom: 1rem;
   left: 0rem;
   text-transform: capitalize;
+}
+
+
+.home .movies_list .movies .movies_link .detail {
+  background-color: var(--red);
+  padding: 1rem 0.5rem;
+  flex: 1 1 100%;
+  border-radius: 0rem 0rem 0.5rem 0.5rem;
+}
+
+
+.home .movies_list .movies .movies_link .detail .movies_year {
+  color: #ccb000;
+  font-size: 0.8rem;
+  padding-bottom: 0.4.rem;
+}
+
+.home .movies_list .movies .movies_link .detail {
+  color: var(--yellow);
+  font-weight: 600;
+  font-size: 1.1rem
 }
 </style>

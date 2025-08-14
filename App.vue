@@ -16,9 +16,14 @@
 <style scoped>
 :global(:root) {
   --yellow: #FFDC00;
-  --red: #1e0700;
+  --red: #830000;
+  --orange: #6b2b00;
+  --darkblue: #01000A;
 }
 
+:global(#app){
+  background-color: var(--darkblue);
+}
 
 * {
   margin: 0;
