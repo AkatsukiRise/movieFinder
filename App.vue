@@ -39,7 +39,9 @@
 
 h2 {
   font-size: 2.2rem;
-  color: var(--yellow)
+  padding: 0.3rem 0 1rem 1rem;
+  color: var(--yellow);
+  text-decoration: none;
 }
 
 router-link {

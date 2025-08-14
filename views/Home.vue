@@ -89,6 +89,7 @@ const SearchMovies = () => {
 
 .home .feature_card .detail p {
   color: #fff;
+  text-decoration: none;
 }
 
 .home .search_box {
@@ -154,6 +155,11 @@ const SearchMovies = () => {
   height: 100%;
 }
 
+.home .movies_list .movies .movies_link:hover {
+  border: 4px solid var(--yellow);
+  transition: 0.5s;
+}
+
 .home .movies_list .movies .movies_link .movies_image{
   position: relative;
   display: block;
@@ -165,6 +171,7 @@ const SearchMovies = () => {
   width: 100%;
   height: 17rem;
   object-fit: cover;
+
 }
 
 .home .movies_list .movies .movies_link .movies_image .type{
@@ -179,11 +186,12 @@ const SearchMovies = () => {
 
 
 .home .movies_list .movies .movies_link .detail {
-  background-color: var(--red);
+  background-color: var(--orange);
   padding: 1rem 0.5rem;
   flex: 1 1 100%;
   border-radius: 0rem 0rem 0.5rem 0.5rem;
 }
+
 
 
 .home .movies_list .movies .movies_link .detail .movies_year {
