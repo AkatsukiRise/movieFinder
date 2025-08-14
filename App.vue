@@ -5,6 +5,7 @@
     <header>
       <router-link to='/'>
         <h2><span>Bob</span>Cinema</h2>
+        </router-link>
     </header>
     <main>
       <router-link />
@@ -26,10 +27,10 @@
 }
 
 * {
-
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Fira Sans', sans-serif;
 }
 
 #container {
@@ -40,6 +41,10 @@
 h2 {
   font-size: 2.2rem;
   color: var(--yellow)
+}
+
+router-link {
+  all: unset;
 }
 
 label {
