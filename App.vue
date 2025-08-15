@@ -4,7 +4,6 @@
   <div id='container'>
     <header>
       <router-link to='/'>
-        <h2><span>Bob</span>Cinema</h2>
         </router-link>
     </header>
     <main>
@@ -21,8 +20,8 @@
   --darkblue: #01000A;
 }
 
-:global(#app){
-  background-color: var(--darkblue);
+:global(body){
+  background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 25%, #e0e7ff 50%, #dbeafe 75%, #f0f9ff 100%)
 }
 
 * {
@@ -33,16 +32,14 @@
 }
 
 #container {
-  max-width: 50rem;
+  max-width: 72rem;
+  width: 100%;
   margin: auto;
+  padding-block: 4rem;
+  padding-inline: 1rem;
+  margin-inline: auto;
 }
 
-h2 {
-  font-size: 2.2rem;
-  padding: 0.3rem 0 1rem 1rem;
-  color: var(--yellow);
-  text-decoration: none;
-}
 
 router-link {
   all: unset;

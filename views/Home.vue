@@ -19,18 +19,12 @@ const SearchMovies = () => {
 
 <template>
   <div class='home'>
-    <div class='feature_card'>
-      <router-link to='/movie/tt3783958'>
-        <img src='https://mir-s3-cdn-cf.behance.net/project_modules/disp/6ae75746996947.586cfecbef3b1.jpg' alt='La-La-Land' class='feature_img'>
-        <div class='detail'>
-          <h3>La La Land</h3>
-          <p>Mia, an aspiring actress, serves lattes to movie stars in between auditions and Sebastian, a jazz musician, scrapes by playing cocktail party gigs in dingy bars, but as success mounts they are faced with decisions that begin to fray the fragile fabric of their love affair, and the dreams they worked so hard to maintain in each other threaten to rip them apart</p>
-        </div>
-      </router-link>
-    </div>
+    <header>
+      <h1>Introducing MovieFinder</h1>
+      <p class='header_description'>Discover your next favorite film with our smart, fast, most useful movie search yet, with recommendations built in — so you get the best movies, every time.</p>
+    </header>
     <form @submit.prevent='SearchMovies()' class='search_box'>
       <input type='text' placeholder='Начни Поиск' v-model='search'/>
-      <input type='submit' value='Поиск'>
     </form>
     <div class='movies_list'>
       <div class='movies' v-for='movie in movies' :key='movie.imdbID'>
@@ -57,82 +51,44 @@ const SearchMovies = () => {
   box-sizing: border-box;
 }
 
-.home .feature_card {
-  position: relative;
+header {
+  text-align: center;
+  margin-bottom: 4rem;
 }
 
-.home .feature_card .feature_img {
-  display: block;
-  margin: auto;
-  width: 12.5rem;
-  height: 25rem;
-  object-fit: cover;
-  position: relative;
-  z-index: 0;
-}
-
-.home .feature_card .detail {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.6);
-  padding: 1rem;
-  z-index: 1;
-}
-
-.home .feature_card .detail h3 {
-  color: #fff;
-  margin: 1rem;
+a {
   text-decoration: none;
 }
 
-.home .feature_card .detail p {
-  color: #fff;
-  text-decoration: none;
+h1 {
+  font-size: 4rem;
+  font-weight: 600;
+  line-height: 1;
+  color: rgb(30, 41, 57);
+  animation: float-animation 6s ease-in-out infinite;
+}
+
+@keyframes float-animation {
+0%, 100% {
+  transform: translateY(0px);
+}
+50% {
+  transform: translateY(-10px);
+}
+}
+
+.home header .header_description {
+  color: rgb(74, 85, 101);
+  font-size: 1.25rem;
+  max-width: 42rem;
+  margin-inline: auto;
+  line-height: 1.625;
 }
 
 .home .search_box {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-}
-
-.home .search_box input[type='text'] {
-  width: 100%;
-  color: #fff;
-  background-color: #496583;
-  font-size: 1.35rem;
-  padding: 0.7rem 1rem;
-  border-radius: 0.5rem;
-  margin-bottom: 0.9rem;
-  transition: 0.4s;
-}
-
-.home .search_box input[type='text']::placeholder {
-  color: #f3f3f3;
-}
-
-.home .search_box input[type='text']:focus {
-  box-shadow: 0px 0.25rem 0.5rem rgba(0, 0, 0, 0.2);
-}
-
-.home .search_box input[type='submit'] {
-  width: 100%;
-  max-width: 300px;
-  background-color: var(--orange);
-  padding: 1rem;
-  border-radius: 0.5rem;
-  color: var(--yellow);
-  font-size: 1.25rem;
-  text-transform: uppercase;
-  transition: 0.4s;
-}
-
-.home .search_box input[type='submit']:active {
-  background-color: var(--red);
+  background: #ffffffe6;
+  border: 1px solid #0000001a;
+  transition: all .2s;
 }
 
 .home .movies_list {
