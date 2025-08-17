@@ -6,7 +6,7 @@ const search = ref('');
 const movies = ref ([]);
 
 const SearchMovies = () => {
-  if(search.value != '') {
+  if(search.value.trim() != '') {
     fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${search.value}`)
       .then(response => response.json())
       .then(data => {
@@ -20,17 +20,21 @@ const SearchMovies = () => {
 <template>
   <div class='home'>
     <header>
-      <h1>Introducing MovieFinder</h1>
+      <router-link to='/'>
+        <h1>Introducing MovieFinder</h1>
+      </router-link>
       <p class='header_description'>Discover your next favorite film with our smart, fast, most useful movie search yet, with recommendations built in — so you get the best movies, every time.</p>
     </header>
-    <form @submit.prevent='SearchMovies()' class='search_box'>
-      <input type='text' placeholder='Начни Поиск' v-model='search'/>
-    </form>
+    <div class='search_box'>
+      <form @submit.prevent='SearchMovies()' class='search_form'>
+        <input type='text' class='search_input' placeholder='Start Your Journey' v-model='search'/>
+      </form>
+    </div>
     <div class='movies_list'>
       <div class='movies' v-for='movie in movies' :key='movie.imdbID'>
         <router-link :to="'/movie/' + movie.imdbID" class='movies_link'>
           <div class='movies_image'>
-            <img :src='movie.Poster' alt='Poster'>
+            <img :src='movie.Poster' alt='movie.Title + Poster'>
             <div class='type'>{{ movie.Type }}</div>
           </div>
           <div class='detail'>
@@ -86,9 +90,30 @@ h1 {
 }
 
 .home .search_box {
+  max-width: 48rem;
+  margin-inline: auto;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.home .search_box .search_form {
+  display: flex;
+  align-items: center;
   background: #ffffffe6;
   border: 1px solid #0000001a;
-  transition: all .2s;
+  border-radius: 2.1875rem;
+}
+
+.home .search_box .search_input {
+  display: flex;
+  height: 2.25rem;
+  width: 100%;
+  border-color: rgb(229, 229, 229);
+  border-radius: .5rem;
+  padding-inline: .75rem;
+  padding-block: .25rem;
+  box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  outline-style: none;
 }
 
 .home .movies_list {
@@ -99,8 +124,8 @@ h1 {
 
 
 .home .movies_list .movies {
-  max-width: 50%;
-  flex: 1 1 50%;
+  max-width: 20%;
+  flex: 1 1 20%;
   padding: 0.8rem 1rem;
 }
 
@@ -109,18 +134,22 @@ h1 {
   display: flex;
   flex-direction: column;
   height: 100%;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .home .movies_list .movies .movies_link:hover {
-  border: 4px solid var(--yellow);
-  transition: 0.5s;
+  background: rgba(255, 255, 255, 0.95);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
 .home .movies_list .movies .movies_link .movies_image{
   position: relative;
   display: block;
 }
-
 
 .home .movies_list .movies .movies_link .movies_image img{
   display: block;
@@ -153,7 +182,7 @@ h1 {
 .home .movies_list .movies .movies_link .detail .movies_year {
   color: #ccb000;
   font-size: 0.8rem;
-  padding-bottom: 0.4.rem;
+  padding-bottom: 0.4rem;
 }
 
 .home .movies_list .movies .movies_link .detail {

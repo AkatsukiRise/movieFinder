@@ -18,6 +18,7 @@
   --red: #830000;
   --orange: #6b2b00;
   --darkblue: #01000A;
+  --black: rgb(30, 41, 57);
 }
 
 :global(body){

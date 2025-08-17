@@ -30,7 +30,7 @@ onBeforeMount(() => {
 }
 
 .movie_detail h2 {
-  color: var(--yellow);
+  color: var(--black);
   font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: 1rem;
@@ -43,7 +43,7 @@ onBeforeMount(() => {
 }
 
 .movie_detail p {
-  color: var(--yellow);
+  color: var(--black);
   font-size: 1.2rem;
   line-height: 1.4;
 }
