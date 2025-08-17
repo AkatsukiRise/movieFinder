@@ -30,6 +30,11 @@ const SearchMovies = () => {
         <input type='text' class='search_input' placeholder='Start Your Journey' v-model='search'/>
       </form>
     </div>
+    <div v-if='!movies.length' class='welcome_container'>
+      <img src='../../public/favicon.jpeg' width='64' height='64' class='welcome_icon' alt='icon'>
+      <h2 >Ready to discover movies?</h2>
+      <p>Start by searching for a movie above and find your next favorite film</p>
+    </div>
     <div class='movies_list'>
       <div class='movies' v-for='movie in movies' :key='movie.imdbID'>
         <router-link :to="'/movie/' + movie.imdbID" class='movies_link'>
@@ -70,6 +75,13 @@ h1 {
   line-height: 1;
   color: var(--black);
   animation: float-animation 6s ease-in-out infinite;
+}
+
+h2 {
+  color: var(--black);
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 600;
 }
 
 @keyframes float-animation {
@@ -113,6 +125,25 @@ h1 {
   box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   outline-style: none;
   font-size: 1.1rem;
+}
+
+.home .welcome_container {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+  margin: auto;
+  max-width: 32rem;
+  text-align: center;
+
+}
+
+.home .welcome_container .welcome_icon {
+  border-radius: 50%;
+}
+
+.home .welcome_container p {
+  color: #4b5563;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
 }
 
 .home .movies_list {
@@ -220,6 +251,17 @@ h1 {
   .home .movies_list .movies {
     max-width: 33%;
     flex: 1 1 33%;
+  }
+
+  .home .movies_list .movies .movies_link .movies_image img {
+    height: 100%;
+  }
+}
+
+@media screen and (min-width: 951px) and (max-width: 1200px) {
+  .home .movies_list .movies {
+    max-width: 25%;
+    flex: 1 1 25%;
   }
 
   .home .movies_list .movies .movies_link .movies_image img {
