@@ -19,6 +19,7 @@
   --orange: #6b2b00;
   --darkblue: #01000A;
   --black: rgb(30, 41, 57);
+  --white: #fffffff2;
 }
 
 :global(body){

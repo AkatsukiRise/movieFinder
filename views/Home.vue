@@ -68,7 +68,7 @@ h1 {
   font-size: 4rem;
   font-weight: 600;
   line-height: 1;
-  color: rgb(30, 41, 57);
+  color: var(--black);
   animation: float-animation 6s ease-in-out infinite;
 }
 
@@ -124,8 +124,8 @@ h1 {
 
 
 .home .movies_list .movies {
-  max-width: 20%;
-  flex: 1 1 20%;
+  max-width: 25%;
+  flex: 1 1 25%;
   padding: 0.8rem 1rem;
 }
 
@@ -137,6 +137,7 @@ h1 {
   background: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 0.5rem 0.5rem 0.5rem 0.5rem;
   transition: all 0.3s ease;
 }
 
@@ -156,14 +157,14 @@ h1 {
   width: 100%;
   height: 17rem;
   object-fit: cover;
-
+  border-radius: 0.5rem 0.5rem 0 0;
 }
 
 .home .movies_list .movies .movies_link .movies_image .type{
   position: absolute;
   padding: 0.5rem 1rem;
-  background-color: var(--orange);
-  color: var(--yellow);
+  background-color: var(--white);
+  color: var(--black);
   bottom: 1rem;
   left: 0rem;
   text-transform: capitalize;
@@ -171,7 +172,7 @@ h1 {
 
 
 .home .movies_list .movies .movies_link .detail {
-  background-color: var(--orange);
+  background-color: var(--white);
   padding: 1rem 0.5rem;
   flex: 1 1 100%;
   border-radius: 0rem 0rem 0.5rem 0.5rem;
@@ -180,14 +181,37 @@ h1 {
 
 
 .home .movies_list .movies .movies_link .detail .movies_year {
-  color: #ccb000;
+  color: var(--black);
   font-size: 0.8rem;
   padding-bottom: 0.4rem;
 }
 
 .home .movies_list .movies .movies_link .detail {
-  color: var(--yellow);
+  color: var(--black);
   font-weight: 600;
   font-size: 1.1rem
+}
+
+@media (max-width: 450px) {
+  header {
+    margin-bottom: 2rem;
+  }
+
+  h1 {
+    font-size: 3rem;
+  }
+
+  .home header .header_description {
+    max-width: 20rem;
+  }
+
+  .home .search_box {
+    max-width: 20rem;
+  }
+
+  .home .movies_list .movies {
+    max-width: 50%;
+    flex: 1 1 50%;
+  }
 }
 </style>
