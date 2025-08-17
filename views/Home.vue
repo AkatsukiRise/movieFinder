@@ -99,21 +99,20 @@ h1 {
 .home .search_box .search_form {
   display: flex;
   align-items: center;
-  background: #ffffffe6;
-  border: 1px solid #0000001a;
-  border-radius: 2.1875rem;
 }
 
 .home .search_box .search_input {
   display: flex;
-  height: 2.25rem;
+  height: 4rem;
   width: 100%;
-  border-color: rgb(229, 229, 229);
-  border-radius: .5rem;
+  background: #ffffffe6;
+  border: 1px solid #0000001a;
+  border-radius: 9999px;
   padding-inline: .75rem;
   padding-block: .25rem;
   box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   outline-style: none;
+  font-size: 1.1rem;
 }
 
 .home .movies_list {
@@ -124,8 +123,8 @@ h1 {
 
 
 .home .movies_list .movies {
-  max-width: 25%;
-  flex: 1 1 25%;
+  max-width: 20%;
+  flex: 1 1 20%;
   padding: 0.8rem 1rem;
 }
 
@@ -181,8 +180,9 @@ h1 {
 
 
 .home .movies_list .movies .movies_link .detail .movies_year {
-  color: var(--black);
+  color: #6b7280;
   font-size: 0.8rem;
+  font-weight: 500;
   padding-bottom: 0.4rem;
 }
 
@@ -192,7 +192,7 @@ h1 {
   font-size: 1.1rem
 }
 
-@media (max-width: 450px) {
+@media screen and (max-width: 450px) {
   header {
     margin-bottom: 2rem;
   }
@@ -212,6 +212,18 @@ h1 {
   .home .movies_list .movies {
     max-width: 50%;
     flex: 1 1 50%;
+  }
+}
+
+
+@media screen and (min-width: 451px) and (max-width: 950px) {
+  .home .movies_list .movies {
+    max-width: 33%;
+    flex: 1 1 33%;
+  }
+
+  .home .movies_list .movies .movies_link .movies_image img {
+    height: 100%;
   }
 }
 </style>
