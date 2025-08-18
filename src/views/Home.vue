@@ -25,7 +25,6 @@ function scrollToTop() {
 </script>
 
 <template>
-  <div class='home'>
     <header>
       <router-link to='/'>
         <h1>Introducing MovieFinder</h1>
@@ -79,7 +78,6 @@ function scrollToTop() {
       </button>
      </div>
     </div>
-  </div>
 </template>
 
 
@@ -123,7 +121,7 @@ h2 {
 }
 }
 
-.home header .header_description {
+header .header_description {
   color: rgb(74, 85, 101);
   font-size: 1.25rem;
   max-width: 42rem;
@@ -131,19 +129,19 @@ h2 {
   line-height: 1.625;
 }
 
-.home .search_box {
+.search_box {
   max-width: 48rem;
   margin-inline: auto;
   margin-bottom: 3rem;
   position: relative;
 }
 
-.home .search_box .search_form {
+.search_box .search_form {
   display: flex;
   align-items: center;
 }
 
-.home .search_box .search_input {
+.search_box .search_input {
   display: flex;
   height: 4rem;
   width: 100%;
@@ -157,7 +155,7 @@ h2 {
   font-size: 1.1rem;
 }
 
-.home .welcome_container {
+.welcome_container {
   padding-top: 4rem;
   padding-bottom: 4rem;
   margin: auto;
@@ -166,31 +164,31 @@ h2 {
 
 }
 
-.home .welcome_container .welcome_icon {
+.welcome_container .welcome_icon {
   border-radius: 50%;
 }
 
-.home .welcome_container p {
+.welcome_container p {
   color: #4b5563;
   font-size: 1.125rem;
   line-height: 1.75rem;
 }
 
-.home .movies_list {
+.movies_list {
   display: flex;
   flex-wrap: wrap;
   margin: 0rem 0.5rem;
 }
 
 
-.home .movies_list .movies {
+.movies_list .movies {
   max-width: 20%;
   flex: 1 1 20%;
   padding: 0.8rem 1rem;
 }
 
 
-.home .movies_list .movies .movies_link {
+.movies_list .movies .movies_link {
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -201,18 +199,18 @@ h2 {
   transition: all 0.3s ease;
 }
 
-.home .movies_list .movies .movies_link:hover {
+.movies_list .movies .movies_link:hover {
   background: rgba(255, 255, 255, 0.95);
   transform: translateY(-4px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.home .movies_list .movies .movies_link .movies_image{
+.movies_list .movies .movies_link .movies_image{
   position: relative;
   display: block;
 }
 
-.home .movies_list .movies .movies_link .movies_image img{
+.movies_list .movies .movies_link .movies_image img{
   display: block;
   width: 100%;
   height: 17rem;
@@ -220,7 +218,7 @@ h2 {
   border-radius: 0.5rem 0.5rem 0 0;
 }
 
-.home .movies_list .movies .movies_link .movies_image .type{
+.movies_list .movies .movies_link .movies_image .type{
   position: absolute;
   padding: 0.5rem 1rem;
   background-color: var(--white);
@@ -231,21 +229,21 @@ h2 {
 }
 
 
-.home .movies_list .movies .movies_link .detail {
+.movies_list .movies .movies_link .detail {
   background-color: var(--white);
   padding: 1rem 0.5rem;
   flex: 1 1 100%;
   border-radius: 0rem 0rem 0.5rem 0.5rem;
 }
 
-.home .movies_list .movies .movies_link .detail .movies_year {
+.movies_list .movies .movies_link .detail .movies_year {
   color: #6b7280;
   font-size: 0.8rem;
   font-weight: 500;
   padding-bottom: 0.4rem;
 }
 
-.home .movies_list .movies .movies_link .detail {
+.movies_list .movies .movies_link .detail {
   color: var(--black);
   font-weight: 600;
   font-size: 1.1rem
@@ -292,15 +290,15 @@ h2 {
     font-size: 3rem;
   }
 
-  .home header .header_description {
+  header .header_description {
     max-width: 20rem;
   }
 
-  .home .search_box {
+  .search_box {
     max-width: 20rem;
   }
 
-  .home .movies_list .movies {
+  .movies_list .movies {
     max-width: 50%;
     flex: 1 1 50%;
   }
@@ -308,23 +306,23 @@ h2 {
 
 
 @media screen and (min-width: 451px) and (max-width: 950px) {
-  .home .movies_list .movies {
+  .movies_list .movies {
     max-width: 33%;
     flex: 1 1 33%;
   }
 
-  .home .movies_list .movies .movies_link .movies_image img {
+  .movies_list .movies .movies_link .movies_image img {
     height: 100%;
   }
 }
 
 @media screen and (min-width: 951px) and (max-width: 1200px) {
-  .home .movies_list .movies {
+  .movies_list .movies {
     max-width: 25%;
     flex: 1 1 25%;
   }
 
-  .home .movies_list .movies .movies_link .movies_image img {
+  .movies_list .movies .movies_link .movies_image img {
     height: 100%;
   }
 }
