@@ -16,33 +16,33 @@ onBeforeMount(() => {
 </script>
 
 <template>
-  <div class='movie_detail'>
+  <div class='movie-detail'>
     <h2>{{movie.Title}}</h2>
     <p>{{ movie.Year }}</p>
-    <img :src='movie.Poster' alt='Poster' class='featured_img'>
+    <img :src='movie.Poster' alt='Poster' class='featured-img'>
     <p>{{ movie.Plot }}</p>
   </div>
 </template>
 
 <style>
-.movie_detail {
+.movie-detail {
   padding: 1rem;
 }
 
-.movie_detail h2 {
+.movie-detail h2 {
   color: var(--black);
   font-size: 1.75rem;
   font-weight: 600;
   margin-bottom: 1rem;
 }
 
-.movie_detail .featured_img {
+.movie-detail .featured-img {
   display: block;
   max-width: 12.5rem;
   margin-bottom: 1rem;
 }
 
-.movie_detail p {
+.movie-detail p {
   color: var(--black);
   font-size: 1.2rem;
   line-height: 1.4;
