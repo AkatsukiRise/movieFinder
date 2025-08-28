@@ -1,6 +1,5 @@
 <script setup>
 import {ref} from 'vue'
-import env from '@/env.js'
 
 const search = ref('');
 const movies = ref([]);
