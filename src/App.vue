@@ -57,7 +57,7 @@ label {
   border-radius: 1.5rem;
 }
 
-#search_flex {
+#search-flex {
   display: flex;
   flex-direction: column;
   align-items: center;
