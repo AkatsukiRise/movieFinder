@@ -1,5 +1,5 @@
 <script setup>
-import {ref} from 'vue'
+import {ref, onMounted, onUnmounted} from 'vue'
 import favicon from '@/assets/favicon.jpeg'
 
 const search = ref('');
@@ -8,6 +8,7 @@ const page = ref(1);
 
 const searchMovies = () => {
   if(search.value.trim() != '') {
+    page.value = 1;
     fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}&page=${page.value}`)
       .then(response => response.json())
       .then(data => {
@@ -16,12 +17,24 @@ const searchMovies = () => {
   }
 }
 
-function scrollToTop() {
-          window.scrollTo({
-            top: 0,
-            left: 0,
-          });
-        }
+const handleScroll = () => {
+  if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 50) {
+  page.value++
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}&page=${page.value}`)
+      .then(response => response.json())
+      .then(data => {
+        movies.value = [...movies.value, ...data.Search];
+      })
+  }
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <template>
@@ -58,21 +71,7 @@ function scrollToTop() {
         </router-link>
       </div>
     </div>
-    <div class='page-first'>
-      <button v-if='page > 1' @click='page = 1; searchMovies()' class='page' id='first'>
-        Вернуться на первую страницу
-      </button>
-      <div class='page-container'>
-        <button v-if='page > 1' @click='page--; scrollToTop(); searchMovies()' class='page'>
-          Предыдущая
-        </button>
-        <p>Страница {{page}}</p>
-        <button @click='page++; scrollToTop(); searchMovies()' class='page'>
-          Следующая
-        </button>
-      </div>
     </div>
-  </div>
 </template>
 
 <style>
