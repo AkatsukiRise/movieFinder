@@ -1,13 +1,12 @@
 <script setup>
 import {ref, onBeforeMount} from 'vue';
 import {useRoute} from 'vue-router';
-import env from '@/env.js'
 
 const movie = ref({});
 const route = useRoute();
 
 onBeforeMount(() => {
-  fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&i=${route.params.id}&plot=full`)
+  fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&i=${route.params.id}&plot=full`)
     .then(response => response.json())
     .then(data => {
       movie.value = data;
