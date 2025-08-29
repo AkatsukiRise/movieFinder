@@ -1,5 +1,6 @@
 <script setup>
 import {ref} from 'vue'
+import favicon from '@/assets/favicon.jpeg'
 
 const search = ref('');
 const movies = ref([]);
@@ -7,7 +8,7 @@ const page = ref(1);
 
 const searchMovies = () => {
   if(search.value.trim() != '') {
-    fetch(`http://www.omdbapi.com/?apikey=${env.apikey}&s=${search.value}&page=${page.value}`)
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}&page=${page.value}`)
       .then(response => response.json())
       .then(data => {
         movies.value = data.Search || [];
@@ -37,7 +38,7 @@ function scrollToTop() {
     </form>
   </div>
   <div v-if='!movies.length' class='welcome-container'>
-    <img src='../../favicon.jpeg' width='64' height='64' class='welcome-icon' alt='icon'>
+    <img :src='favicon' width='64' height='64' class='welcome-icon' alt='icon'>
     <h2>Ready to discover movies?</h2>
     <p>Start by searching for a movie above and find your next favorite film</p>
   </div>
