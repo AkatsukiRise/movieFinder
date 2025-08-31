@@ -1,26 +1,52 @@
 <script setup>
 import {ref, onMounted, onUnmounted} from 'vue'
 import favicon from '@/assets/favicon.jpeg'
+import MovieCard from '../components/MovieCard.vue'
+import MovieCardSkeleton from '../components/MovieCardSkeleton.vue'
 
 const search = ref('');
 const movies = ref([]);
 const page = ref(1);
+const movieType = ref(false)
+const seriesType = ref(false)
+let typeParam = ref('');
 
 const searchMovies = () => {
-  if(search.value.trim() != '') {
+  if (search.value.trim() !== '') {
     page.value = 1;
-    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}&page=${page.value}`)
-      .then(response => response.json())
-      .then(data => {
-        movies.value = data.Search || [];
+    loading.value = true;
+
+    if (movieType.value && !seriesType.value) {
+      typeParam.value = '&type=movie';
+    } else if (seriesType.value && !movieType.value) {
+      typeParam.value = '&type=series';
+    } else {
+      typeParam.value = '';
+    }
+
+    fetch(
+      `http://www.omdbapi.com/?apikey=${
+        import.meta.env.VITE_API_KEY
+      }&s=${search.value}${typeParam.value}&page=${page.value}`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+          movies.value = data.Search || [];
+          loading.value = false
       })
+      .catch((error) => console.log(`Error: ${error}`));
   }
-}
+};
 
 const handleScroll = () => {
   if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 50) {
   page.value++
-    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}&page=${page.value}`)
+    if (movieType.value && !seriesType.value) {
+      typeParam.value = '&type=movie';
+    } else if (seriesType.value && !movieType.value) {
+      typeParam.value = '&type=series';
+    }
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}${typeParam.value}&page=${page.value}`)
       .then(response => response.json())
       .then(data => {
         movies.value = [...movies.value, ...data.Search];
@@ -48,6 +74,25 @@ onUnmounted(() => {
   <div class='search-box'>
     <form @submit.prevent='searchMovies' class='search-form'>
       <input type='text' class='search-input' placeholder='Start your journey' v-model='search'/>
+      <div class='filter-container'>
+        <button
+          type='button'
+          @click='movieType= !movieType'
+          class='filter'
+          :class='{filter__on: movieType}'
+        >
+          Movie
+        </button>
+
+        <button
+          type='button'
+          @click='seriesType = !seriesType'
+          class='filter'
+          :class='{filter__on: seriesType}'
+        >
+          Series
+        </button>
+      </div>
     </form>
   </div>
   <div v-if='!movies.length' class='welcome-container'>
@@ -146,6 +191,18 @@ header .header-description {
   box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   outline-style: none;
   font-size: 1.1rem;
+}
+
+.filter {
+  width: 3.5rem;
+  height: 1.3rem;
+  margin-block: .2rem;
+  border: 1px solid #0000001a;
+  border-radius: .5rem;
+}
+
+.filter__on {
+  background: var(--green);
 }
 
 .welcome-container {
@@ -289,6 +346,20 @@ header .header-description {
 
   .search-box {
     max-width: 20rem;
+  }
+
+  .search-form {
+    flex-direction: column;
+  }
+
+  .filter-container {
+    display: flex;
+    max-width: 350px;
+  }
+
+  .filter {
+    margin-inline: 1rem;
+    width: 5rem;
   }
 
   .movies-list .movies {
