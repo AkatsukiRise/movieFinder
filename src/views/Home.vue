@@ -9,6 +9,7 @@ const movies = ref([]);
 const page = ref(1);
 const movieType = ref(false)
 const seriesType = ref(false)
+const loading = ref(false)
 let typeParam = ref('');
 
 const searchMovies = () => {
@@ -95,28 +96,31 @@ onUnmounted(() => {
       </div>
     </form>
   </div>
-  <div v-if='!movies.length' class='welcome-container'>
-    <img :src='favicon' width='64' height='64' class='welcome-icon' alt='icon'>
+    <div v-if="loading" class="movies-list">
+    <div class="movies" v-for="n in 10" :key="n">
+      <MovieCardSkeleton />
+    </div>
+      </div>
+    <div v-else-if="!movies.length" class="welcome-container">
+<div v-else-if="!movies.length" class="welcome-container">
+
+  <h2 v-if="errorMessage">{{ errorMessage }}</h2>
+  <template v-else>
+  <img
+    :src="favicon"
+    width="64"
+    height="64"
+    class="welcome-icon"
+    alt="icon"
+  />
     <h2>Ready to discover movies?</h2>
     <p>Start by searching for a movie above and find your next favorite film</p>
+  </template>
+</div>    <div v-else class="movies-list">
+    <div class="movies" v-for="movie in movies" :key="movie.imdbID">
+      <MovieCard :movie="movie" />
+    </div>
   </div>
-
-  <div v-else>
-    <div class='movies-list'>
-      <div class='movies' v-for='movie in movies' :key='movie.imdbID'>
-        <router-link :to="'/movie/' + movie.imdbID" class='movies-link'>
-          <div class='movies-image'>
-            <img :src='movie.Poster' alt='movie.Title + Poster'>
-            <div class='type'>{{ movie.Type }}</div>
-          </div>
-          <div class='detail'>
-            <p class='movies-year'>{{ movie.Year }}</p>
-            <h3>{{ movie.Title }}</h3>
-          </div>
-        </router-link>
-      </div>
-    </div>
-    </div>
 </template>
 
 <style>
