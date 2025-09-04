@@ -11,6 +11,7 @@ const movieType = ref(false)
 const seriesType = ref(false)
 const loading = ref(false)
 let typeParam = ref('');
+const errorMessage = ref('');
 
 const searchMovies = () => {
   if (search.value.trim() !== '') {
@@ -25,18 +26,35 @@ const searchMovies = () => {
       typeParam.value = '';
     }
 
-    fetch(
-      `http://www.omdbapi.com/?apikey=${
-        import.meta.env.VITE_API_KEY
       }&s=${search.value}${typeParam.value}&page=${page.value}`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-          movies.value = data.Search || [];
-          loading.value = false
-      })
-      .catch((error) => console.log(`Error: ${error}`));
-  }
+fetch(
+  `http://www.omdbapi.com/?apikey=${
+    import.meta.env.VITE_API_KEY
+)
+  .then((response) => {
+    if (!response.ok) {
+          if (response.status === 401) {
+            throw new Error('No API Key Provided');
+          } else {
+            throw new Error(`${response.status}`)
+          }
+    }
+    return response.json()
+  })
+  .then((data) => {
+    if (data.Response === 'False') {
+      errorMessage.value = data.Error || 'Unknown error'
+      movies.value = []
+    } else {
+      movies.value = data.Search || []
+    }
+    loading.value = false
+  })
+  .catch((error) => {
+    errorMessage.value = `Error: ${error.message}`
+    movies.value = []
+    loading.value = false
+  })  }
 };
 
 const handleScroll = () => {
@@ -47,7 +65,8 @@ const handleScroll = () => {
     } else if (seriesType.value && !movieType.value) {
       typeParam.value = '&type=series';
     }
-    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}${typeParam.value}&page=${page.value}`)
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY
+}&s=${search.value}${typeParam.value}&page=${page.value}`)
       .then(response => response.json())
       .then(data => {
         movies.value = [...movies.value, ...data.Search];
@@ -101,7 +120,6 @@ onUnmounted(() => {
       <MovieCardSkeleton />
     </div>
       </div>
-    <div v-else-if="!movies.length" class="welcome-container">
 <div v-else-if="!movies.length" class="welcome-container">
 
   <h2 v-if="errorMessage">{{ errorMessage }}</h2>
