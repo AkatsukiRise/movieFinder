@@ -30,8 +30,8 @@ fetch(
       `http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}${typeParam.value}&page=${page.value}`
 )
   .then((response) => {
-        if(import.meta.env.PROD) {
     if (!response.ok) {
+        if(import.meta.env.PROD) {
             if (response.status === 401) {
             console.log('No API key provided');
             throw new Error("Movie not found! Sorry that's on us!");
