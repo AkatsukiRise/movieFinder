@@ -1,10 +1,86 @@
 <script setup>
 import {ref, onMounted, onUnmounted} from 'vue'
 import favicon from '@/assets/favicon.jpeg'
+import MovieCard from '../components/MovieCard.vue'
+import MovieCardSkeleton from '../components/MovieCardSkeleton.vue'
+
 
 const search = ref('');
 const movies = ref([]);
 const page = ref(1);
+
+const movieType = ref(false)
+const seriesType = ref(false)
+const loading = ref(false)
+let typeParam = ref('');
+const errorMessage = ref('');
+
+const searchMovies = () => {
+  if (search.value.trim() !== '') {
+    page.value = 1;
+    loading.value = true;
+
+    if (movieType.value && !seriesType.value) {
+      typeParam.value = '&type=movie';
+    } else if (seriesType.value && !movieType.value) {
+      typeParam.value = '&type=series';
+    } else {
+      typeParam.value = '';
+    }
+
+fetch(
+      `http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}${typeParam.value}&page=${page.value}`
+)
+  .then((response) => {
+    if (!response.ok) {
+        if(import.meta.env.PROD) {
+            if (response.status === 401) {
+            console.log('No API key provided');
+            throw new Error("Movie not found! Sorry that's on us!");
+          } else {
+            throw new Error('Movie not found!')
+          }          }
+        } else if (import.meta.env.DEV) {
+          if (response.status === 401) {
+            throw new Error('No API Key Provided');
+          } else {
+            throw new Error(`${response.status}`)
+          }
+        }
+    return response.json()
+  })
+  .then((data) => {
+    if (data.Response === 'False') {
+      errorMessage.value = data.Error || 'Unknown error'
+      movies.value = []
+    } else {
+      movies.value = data.Search || []
+    }
+    loading.value = false
+  })
+  .catch((error) => {
+    errorMessage.value = `Error: ${error.message}`
+    movies.value = []
+    loading.value = false
+  })  }
+};
+
+const handleScroll = () => {
+  if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 50) {
+  page.value++
+    if (movieType.value && !seriesType.value) {
+      typeParam.value = '&type=movie';
+    } else if (seriesType.value && !movieType.value) {
+      typeParam.value = '&type=series';
+    }
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}${typeParam.value}&page=${page.value}`)
+      .then(response => response.json())
+      .then(data => {
+        movies.value = [...movies.value, ...data.Search];
+      })
+  }
+}
+
 
 const searchMovies = () => {
   if(search.value.trim() != '') {
@@ -48,6 +124,31 @@ onUnmounted(() => {
   <div class='search-box'>
     <form @submit.prevent='searchMovies' class='search-form'>
       <input type='text' class='search-input' placeholder='Start your journey' v-model='search'/>
+      <div class='filter-container'>
+        <button
+          type='button'
+          @click='movieType= !movieType'
+          class='filter'
+          :class='{filter__on: movieType}'
+        >
+          Movie
+        </button>
+
+        <button
+          type='button'
+          @click='seriesType = !seriesType'
+          class='filter'
+          :class='{filter__on: seriesType}'
+        >
+          Series
+        </button>
+      </div>
+    </form>
+  </div>
+    <div v-if="loading" class="movies-list">
+    <div class="movies" v-for="n in 10" :key="n">
+      <MovieCardSkeleton />
+    </div>
     </form>
   </div>
   <div v-if='!movies.length' class='welcome-container'>
@@ -70,6 +171,23 @@ onUnmounted(() => {
           </div>
         </router-link>
       </div>
+<div v-else-if="!movies.length" class="welcome-container">
+
+  <h2 v-if="errorMessage">{{ errorMessage }}</h2>
+  <template v-else>
+  <img
+    :src="favicon"
+    width="64"
+    height="64"
+    class="welcome-icon"
+    alt="icon"
+  />
+    <h2>Ready to discover movies?</h2>
+    <p>Start by searching for a movie above and find your next favorite film</p>
+  </template>
+</div>    <div v-else class="movies-list">
+    <div class="movies" v-for="movie in movies" :key="movie.imdbID">
+      <MovieCard :movie="movie" />
     </div>
     </div>
 </template>
@@ -146,6 +264,18 @@ header .header-description {
   box-shadow: 0 0 #0000, 0 0 #0000, 0 0 #0000, 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   outline-style: none;
   font-size: 1.1rem;
+}
+
+.filter {
+  width: 3.5rem;
+  height: 1.3rem;
+  margin-block: .2rem;
+  border: 1px solid #0000001a;
+  border-radius: .5rem;
+}
+
+.filter__on {
+  background: var(--green);
 }
 
 .welcome-container {
@@ -290,6 +420,21 @@ header .header-description {
   .search-box {
     max-width: 20rem;
   }
+
+  .search-form {
+    flex-direction: column;
+  }
+
+  .filter-container {
+    display: flex;
+    max-width: 350px;
+  }
+
+  .filter {
+    margin-inline: 1rem;
+    width: 5rem;
+  }
+
 
   .movies-list .movies {
     max-width: 50%;
