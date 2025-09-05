@@ -4,9 +4,11 @@ import favicon from '@/assets/favicon.jpeg'
 import MovieCard from '../components/MovieCard.vue'
 import MovieCardSkeleton from '../components/MovieCardSkeleton.vue'
 
+
 const search = ref('');
 const movies = ref([]);
 const page = ref(1);
+
 const movieType = ref(false)
 const seriesType = ref(false)
 const loading = ref(false)
@@ -79,6 +81,29 @@ const handleScroll = () => {
   }
 }
 
+
+const searchMovies = () => {
+  if(search.value.trim() != '') {
+    page.value = 1;
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}&page=${page.value}`)
+      .then(response => response.json())
+      .then(data => {
+        movies.value = data.Search || [];
+      })
+  }
+}
+
+const handleScroll = () => {
+  if (window.scrollY + window.innerHeight >= document.body.scrollHeight - 50) {
+  page.value++
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}&page=${page.value}`)
+      .then(response => response.json())
+      .then(data => {
+        movies.value = [...movies.value, ...data.Search];
+      })
+  }
+}
+
 onMounted(() => {
   window.addEventListener('scroll', handleScroll)
 })
@@ -124,6 +149,27 @@ onUnmounted(() => {
     <div class="movies" v-for="n in 10" :key="n">
       <MovieCardSkeleton />
     </div>
+    </form>
+  </div>
+  <div v-if='!movies.length' class='welcome-container'>
+    <img :src='favicon' width='64' height='64' class='welcome-icon' alt='icon'>
+    <h2>Ready to discover movies?</h2>
+    <p>Start by searching for a movie above and find your next favorite film</p>
+  </div>
+
+  <div v-else>
+    <div class='movies-list'>
+      <div class='movies' v-for='movie in movies' :key='movie.imdbID'>
+        <router-link :to="'/movie/' + movie.imdbID" class='movies-link'>
+          <div class='movies-image'>
+            <img :src='movie.Poster' alt='movie.Title + Poster'>
+            <div class='type'>{{ movie.Type }}</div>
+          </div>
+          <div class='detail'>
+            <p class='movies-year'>{{ movie.Year }}</p>
+            <h3>{{ movie.Title }}</h3>
+          </div>
+        </router-link>
       </div>
 <div v-else-if="!movies.length" class="welcome-container">
 
@@ -143,7 +189,7 @@ onUnmounted(() => {
     <div class="movies" v-for="movie in movies" :key="movie.imdbID">
       <MovieCard :movie="movie" />
     </div>
-  </div>
+    </div>
 </template>
 
 <style>
@@ -388,6 +434,7 @@ header .header-description {
     margin-inline: 1rem;
     width: 5rem;
   }
+
 
   .movies-list .movies {
     max-width: 50%;
