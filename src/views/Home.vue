@@ -26,19 +26,25 @@ const searchMovies = () => {
       typeParam.value = '';
     }
 
-      }&s=${search.value}${typeParam.value}&page=${page.value}`
 fetch(
-  `http://www.omdbapi.com/?apikey=${
-    import.meta.env.VITE_API_KEY
+      `http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}${typeParam.value}&page=${page.value}`
 )
   .then((response) => {
+        if(import.meta.env.PROD) {
     if (!response.ok) {
+            if (response.status === 401) {
+            console.log('No API key provided');
+            throw new Error("Movie not found! Sorry that's on us!");
+          } else {
+            throw new Error('Movie not found!')
+          }          }
+        } else if (import.meta.env.DEV) {
           if (response.status === 401) {
             throw new Error('No API Key Provided');
           } else {
             throw new Error(`${response.status}`)
           }
-    }
+        }
     return response.json()
   })
   .then((data) => {
@@ -65,8 +71,7 @@ const handleScroll = () => {
     } else if (seriesType.value && !movieType.value) {
       typeParam.value = '&type=series';
     }
-    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY
-}&s=${search.value}${typeParam.value}&page=${page.value}`)
+    fetch(`http://www.omdbapi.com/?apikey=${import.meta.env.VITE_API_KEY}&s=${search.value}${typeParam.value}&page=${page.value}`)
       .then(response => response.json())
       .then(data => {
         movies.value = [...movies.value, ...data.Search];
