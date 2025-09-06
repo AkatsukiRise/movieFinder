@@ -33,7 +33,7 @@
 .movie-placeholder {
   margin-left: .5rem;
   width: 1rem;
-  heigth: .3rem;
+  height: .3rem;
   background-color: var(--black);
 }
 </style>
